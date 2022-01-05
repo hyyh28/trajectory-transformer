@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="ubuntu@train02.mail-ecnu.cn:10070 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/ubuntu/trajectory-transformer" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
