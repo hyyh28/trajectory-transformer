@@ -119,4 +119,5 @@ def train_IRS(env, state_dim, action_dim, device, output_dir, args, discount=0.9
     training_iters = 0
 
     while training_iters < args.max_timesteps:
-        
+        print("Train step: ", training_iters)
+        reward_shaping.train(replay_buffer, iterations=int(args.eval_freq), batch_size=args.batch_size)
