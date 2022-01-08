@@ -99,10 +99,10 @@ class IRS(object):
             self.potential_optimizer.step()
 
 
-def train_IRS(env, state_dim, action_dim, device, output_dir, args, discount=0.9):
+def train_IRS(state_dim, action_dim, device, output_dir, args, discount=0.9):
     reward_shaping = IRS(state_dim, device, discount)
     replay_buffer = ReplayBuffer(state_dim, action_dim, device)
-    dataset = env.get_dataset()
+    dataset = get_expert_dataset()
     N = dataset['rewards'].shape[0]
     print('Loading Buffer!')
     for i in range(N-1):
@@ -121,3 +121,16 @@ def train_IRS(env, state_dim, action_dim, device, output_dir, args, discount=0.9
     while training_iters < args.max_timesteps:
         print("Train step: ", training_iters)
         reward_shaping.train(replay_buffer, iterations=int(args.eval_freq), batch_size=args.batch_size)
+
+
+def get_expert_dataset():
+    env = gym.make("maze2d-umaze-v1")
+    dataset = env.get_dataset()
+    expert_dataset = {}
+    for key in dataset.keys():
+        expert_dataset[key] = []
+    for i in range(len(dataset['observations'])):
+        if i % 2 == 0 or (dataset['rewards'][i] > 0 or dataset['timeouts'][i] is True):
+            for key in dataset.keys():
+                expert_dataset[key].append(dataset[key][i])
+    return expert_dataset
