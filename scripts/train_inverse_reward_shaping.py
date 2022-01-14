@@ -109,6 +109,9 @@ class IRS(object):
         torch.save(self.potential_target, location)
         print("Model Saved")
 
+    def load_model(self, location):
+        self.potential_target = torch.load(location)
+
 
 def train_IRS(state_dim, action_dim, device, args, discount=0.81):
     output_dir = args.output_dir
